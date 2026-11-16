@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5efe2">
+<title>一笔山水 · 输名出图</title>
+<style>
+  :root { --paper:#f5efe2; --ink:#23282a; --line:#d9cfba; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body { margin:0; background:var(--paper); color:var(--ink);
+    font-family:"KaiTi","STKaiti","Kaiti SC","Songti SC",serif; }
+  body { padding:18px 16px 34px; max-width:900px; margin:0 auto; }
+  h1 { font-size:22px; font-weight:400; letter-spacing:.22em; margin:6px 0 2px; }
+  p.sub { font-size:13px; color:#7b7463; letter-spacing:.12em; margin:0 0 16px; }
+  .bar { display:flex; gap:8px; margin-bottom:14px; }
+  input { flex:1; min-width:0; font:inherit; font-size:17px; padding:11px 13px;
+    border:1px solid var(--line); border-radius:3px; background:#fbf7ee; color:var(--ink); }
+  input:focus { outline:none; border-color:#9d9482; }
+  button { font:inherit; font-size:15px; letter-spacing:.16em; padding:11px 18px;
+    border:1px solid #2b3234; background:#2b3234; color:#f7f2e6; border-radius:3px; cursor:pointer; }
+  button:active { transform:translateY(1px); }
+  button.ghost { background:transparent; color:#3a4144; border-color:#bdb3a0; }
+  .stage { position:relative; border:1px solid var(--line); background:#fffdf7;
+    box-shadow:0 2px 14px rgba(60,50,30,.08); }
+  canvas { display:block; width:100%; height:auto; }
+  .hint { font-size:12.5px; color:#8b8371; letter-spacing:.1em; margin:9px 2px 0; min-height:18px; }
+  .acts { display:flex; gap:8px; margin-top:12px; }
+  .acts button { flex:1; }
+  footer { margin-top:22px; font-size:12px; color:#98907d; line-height:1.9; letter-spacing:.06em; }
+  a { color:#5d6a63; }
+</style>
+</head>
+<body>
+<h1>一 笔 山 水</h1>
+<p class="sub">输入一个名字，落一座山。</p>
+
+<div class="bar">
+  <input id="nm" maxlength="12" placeholder="输入名字，如 林清和" autocomplete="off" autocapitalize="off" spellcheck="false">
+  <button id="go">落 墨</button>
+</div>
+
+<div class="stage"><canvas id="cv" width="1600" height="1000"></canvas></div>
+<div class="hint" id="hint">同名同山，永不重复。</div>
+
+<div class="acts">
+  <button class="ghost" id="save">存 图</button>
+  <button class="ghost" id="share">分 享</button>
+</div>
+
+<footer>
+  名字里的字决定画面：水/木/山/日/月/雪/雨/云/舟/鸟/素/秋/春。<br>
+  同一个名字永远画出同一座山，换一台手机也一样。<br>
+  <a href="gallery.html">看 看 别 人 的 山 →</a>
+</footer>
+
+<script src="core.js"></script>
+<script>
+(function () {
+  var cv = document.getElementById('cv'), nm = document.getElementById('nm'),
+      go = document.getElementById('go'), hint = document.getElementById('hint');
+
+  function draw(name) {
+    hint.textContent = '正在落墨…';
+    setTimeout(function () {
+      var t0 = (window.performance || Date).now();
+      try {
+        ShanShui.render(cv, name || '');
+        var ms = Math.round((window.performance || Date).now() - t0);
+        hint.textContent = '《' + (name || '山水') + '图》 · ' + cv.width + '×' + cv.height + ' · ' + ms + ' ms';
+      } catch (e) {
+        hint.textContent = '出错了：' + (e && e.message ? e.message : e);
+      }
+    }, 24);
+  }
+
+  function syncUrl(name) {
+    try {
+      var u = new URL(location.href);
+      if (name) u.searchParams.set('n', name); else u.searchParams.delete('n');
+      history.replaceState(null, '', u.toString());
+    } catch (e) {}
+  }
+
+  go.addEventListener('click', function () {
+    var name = (nm.value || '').trim().slice(0, 12);
+    syncUrl(name);
+    draw(name);
+  });
+  nm.addEventListener('keydown', function (e) { if (e.key === 'Enter') go.click(); });
+
+  document.getElementById('save').addEventListener('click', function () {
+    var a = document.createElement('a');
+    a.download = '山水-' + (nm.value.trim() || '无名') + '.png';
+    a.href = cv.toDataURL('image/png');
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+
+  document.getElementById('share').addEventListener('click', function () {
+    if (!navigator.canShare || !cv.toBlob) { hint.textContent = '长按图片可直接保存'; return; }
+    cv.toBlob(function (blob) {
+      var file = new File([blob], '山水-' + (nm.value.trim() || '无名') + '.png', { type: 'image/png' });
+      if (navigator.canShare({ files: [file] })) navigator.share({ files: [file], title: '一笔山水' });
+      else hint.textContent = '长按图片可直接保存';
+    }, 'image/png');
+  });
+
+  var q = new URLSearchParams(location.search).get('n');
+  if (q) { nm.value = q.slice(0, 12); }
+  draw(q ? q.slice(0, 12) : (nm.value || ''));
+})();
+</script>
+</body></html>
