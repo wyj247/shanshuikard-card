@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>一笔山水 · 样例</title>
+<style>
+  body{margin:0;background:#141210;color:#e8e0cf;font-family:"KaiTi","STKaiti",serif;
+       display:flex;flex-direction:column;align-items:center;padding:44px 20px 80px;gap:26px}
+  h1{font-size:26px;font-weight:400;letter-spacing:.45em;margin:0}
+  h2{font-size:17px;font-weight:400;letter-spacing:.3em;color:#b3a68e;margin:26px 0 0}
+  p{max-width:900px;line-height:1.95;font-size:15px;color:#a99c86;margin:0;text-align:center}
+  code{color:#cbb98f;font-family:Consolas,monospace;font-size:13px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:26px;width:min(1320px,96vw)}
+  figure{margin:0}
+  img{width:100%;display:block;box-shadow:0 12px 36px rgba(0,0,0,.55)}
+  figcaption{font-size:13px;color:#8d8270;margin-top:9px;letter-spacing:.08em;text-align:center;line-height:1.7}
+</style>
+</head>
+<body>
+  <h1>一 笔 山 水</h1>
+  <p>输入一个名字，程序把它画成一幅水墨山水。<br>
+  名字里的字决定这幅画长什么样：带水的近水，带木的多松，带雪的落白，带秋的转赭。<br>
+  字里认不出意象的部分，交给名字算出的种子——所以同一个名字，永远得到同一座山。</p>
+
+  <div class="grid">
+    <figure><a href="林清和.png"><img src="林清和.png" alt="林清和"></a>
+      <figcaption>林清和 · 水木<br>空山新雨后／清泉石上流</figcaption></figure>
+    <figure><a href="沈砚秋.png"><img src="沈砚秋.png" alt="沈砚秋"></a>
+      <figcaption>沈砚秋 · 水秋（赭石、斗方）<br>明月松间照／清泉石上流</figcaption></figure>
+    <figure><a href="顾南枝.png"><img src="顾南枝.png" alt="顾南枝"></a>
+      <figcaption>顾南枝 · 木（必有松）<br>泉声咽危石／日色冷青松</figcaption></figure>
+    <figure><a href="周叙白.png"><img src="周叙白.png" alt="周叙白"></a>
+      <figcaption>周叙白 · 素（无重彩）<br>白云回望合／青霭入看无</figcaption></figure>
+    <figure><a href="江照野.png"><img src="江照野.png" alt="江照野"></a>
+      <figcaption>江照野 · 水日（必有日、水线上移）<br>寒山转苍翠／秋水日潺湲</figcaption></figure>
+    <figure><a href="温故.png"><img src="温故.png" alt="温故"></a>
+      <figcaption>温故 · 水<br>空山新雨后／清泉石上流</figcaption></figure>
+  </div>
+
+  <h2>字 象</h2>
+  <p>同一套算法，换一个名字就换一个世界。<br>
+  名字里有「雪」就不画日月、不提亮不行；有「山」就把峰再抬高三成；有「舟」就一定给你一条船。</p>
+  <div class="grid">
+    <figure><a href="江雪.png"><img src="江雪.png" alt="江雪"></a>
+      <figcaption>江雪 · 水雪（水墨提亮、无日月、大雾、必有舟）<br>孤舟蓑笠翁／独钓寒江雪</figcaption></figure>
+    <figure><a href="岳峰.png"><img src="岳峰.png" alt="岳峰"></a>
+      <figcaption>岳峰 · 山（峰高 ×1.13、水线下移）<br>山随平野尽／江入大荒流</figcaption></figure>
+    <figure><a href="叶舟.png"><img src="叶舟.png" alt="叶舟"></a>
+      <figcaption>叶舟 · 舟（诗里有舟，画里就有舟）<br>春潮带雨晚来急／野渡无人舟自横</figcaption></figure>
+    <figure><a href="春风.png"><img src="春风.png" alt="春风"></a>
+      <figcaption>春风 · 春（转青绿；诗里有雨就下雨）<br>春潮带雨晚来急／野渡无人舟自横</figcaption></figure>
+  </div>
+
+  <h2>网 站</h2>
+  <p><code>启动网站.bat</code>（或 <code>python site.py</code>）会起一个本地站点：浏览器里写一个名字，直接出山。<br>
+  名片右下角的二维码写的是站点地址，手机扫一下就打开这个名字的那座山。</p>
+
+  <h2>名 片</h2>
+  <p>二维码里编的是 <code>http://&lt;这台机器的内网 IP&gt;:8000/?n=名字</code>，所以扫开就是网站。<br>
+  也可以换成离线串 <code>SHANSHUI/名字/种子</code>：扫出来这一串，同样能把同一座山画出来。</p>
+  <div class="grid">
+    <figure><a href="卡_林清和.png"><img src="卡_林清和.png" alt="卡 林清和"></a>
+      <figcaption>林清和 的名片 · 扫码打开 …/?n=林清和</figcaption></figure>
+    <figure><a href="卡_沈砚秋.png"><img src="卡_沈砚秋.png" alt="卡 沈砚秋"></a>
+      <figcaption>沈砚秋 的名片 · 扫码打开 …/?n=沈砚秋</figcaption></figure>
+    <figure><a href="卡_江照野.png"><img src="卡_江照野.png" alt="卡 江照野"></a>
+      <figcaption>江照野 的名片 · 扫码打开 …/?n=江照野</figcaption></figure>
+  </div>
+</body>
+</html>
